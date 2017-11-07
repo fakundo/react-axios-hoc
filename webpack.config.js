@@ -27,5 +27,5 @@ module.exports = {
     host,
     port,
     stats: 'minimal'
-  },
+  }
 }
