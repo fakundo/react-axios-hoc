@@ -10,8 +10,7 @@ import ObservedAction from './ObservedAction'
 export const propTypes = {
   observeAction: PropTypes.func,
   getObservedAction: PropTypes.func,
-  actionObserverKey: PropTypes.any,
-  actionObserverRef: PropTypes.func
+  actionObserverKey: PropTypes.any
 }
 
 export default WrappedComponent =>
@@ -92,10 +91,10 @@ export default WrappedComponent =>
     }
 
     render() {
-      const { actionObserverRef } = this.props
+      const { actionObserverRef, ...rest } = this.props
       const { actionObserverKey } = this.state
       return createElement(WrappedComponent, {
-        ...this.props,
+        ...rest,
         observeAction: this.observeAction,
         getObservedAction: this.getObservedAction,
         ref: actionObserverRef,
