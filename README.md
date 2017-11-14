@@ -1,14 +1,14 @@
 ### Action observer
 
-HOC which allows you to observe the status of an asynchronous action. 
+[![npm](https://img.shields.io/npm/v/react-action-observer.svg?maxAge=2592000)](https://www.npmjs.com/package/react-action-observer)
+
+HOC which allows you to observe the status of an asynchronous actions. 
 
 ### Features
 
 - can rerender component when status has changed
 - can abort axios requests on component unmount
 - can abort axios request on second call
-
-[![npm](https://img.shields.io/npm/v/react-action-observer.svg?maxAge=2592000)](https://www.npmjs.com/package/react-action-observer)
 
 ### Installation
 ```
