@@ -43,7 +43,7 @@ export default WrappedComponent =>
       return this.observableActions[key] || new ObservedAction()
     }
 
-    observeAction = async (getAction, { key = '', shouldComponentUpdate = true } = {}) => {
+    observeAction = async (getAction, { key = '', shouldComponentUpdate = true, silent = true } = {}) => {
       // Cancel existing action with same key
       this.getObservedAction(key).abort()
 
@@ -58,16 +58,24 @@ export default WrappedComponent =>
       // Update component on pending
       this.updateComponentIfNeeded(shouldComponentUpdate, 'pending')
 
+      let result
+      let resultError
       try {
-        const data = await action
-        observedAction.resolve(data)
-        this.updateComponentIfNeeded(shouldComponentUpdate, 'success')
-        return data
+        result = await action
       } catch (error) {
-        observedAction.reject(error)
-        this.updateComponentIfNeeded(shouldComponentUpdate, 'failure')
-        throw error
+        resultError = error
       }
+
+      if (resultError !== undefined) {
+        observedAction.resolve(result)
+        this.updateComponentIfNeeded(shouldComponentUpdate, 'success')
+      } else {
+        observedAction.reject(resultError)
+        this.updateComponentIfNeeded(shouldComponentUpdate, 'failure')
+        if (!silent) throw resultError
+      }
+
+      return result
     }
 
     updateComponentIfNeeded(shouldComponentUpdate, phase) {

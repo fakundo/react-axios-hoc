@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/react-action-observer.svg?maxAge=2592000)](https://www.npmjs.com/package/react-action-observer)
 
-HOC which allows you to observe the status of an asynchronous actions. 
+HOC which allows you to observe the status of an asynchronous actions.
 
 ### Features
 
@@ -58,5 +58,5 @@ export default class TestComponent extends Component {
 
 ### Props
 
-- observeAction(getAction, { key = '', shouldComponentUpdate = true } = {})
+- observeAction(getAction, { key = '', shouldComponentUpdate = true, silent = true } = {})
 - getObservedAction(key = '')
