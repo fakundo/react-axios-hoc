@@ -66,7 +66,7 @@ export default WrappedComponent =>
         resultError = error
       }
 
-      if (resultError !== undefined) {
+      if (resultError === undefined) {
         observedAction.resolve(result)
         this.updateComponentIfNeeded(shouldComponentUpdate, 'success')
       } else {
