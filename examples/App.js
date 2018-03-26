@@ -1,36 +1,30 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import actionObserver from '../src'
+import withActions from '../src'
 
 const fetchGeolocation = cancelToken => axios('http://freegeoip.net/json/', { cancelToken })
 
-@actionObserver
-export default class App extends Component {
+@withActions(() => ({
+  fetchGeolocationAction: fetchGeolocation,
+}))
+export default class App extends PureComponent {
   static propTypes = {
-    observeAction: PropTypes.func.isRequired,
-    getObservedAction: PropTypes.func.isRequired
+    fetchGeolocationAction: PropTypes.object.isRequired,
   }
 
   handleClick = () => {
-    const { observeAction } = this.props
-    observeAction(cancelToken => fetchGeolocation(cancelToken))
+    const { fetchGeolocationAction } = this.props
+    fetchGeolocationAction.run()
   }
 
   render() {
-    const { getObservedAction } = this.props
-    const action = getObservedAction()
     return (
       <div>
         <button onClick={this.handleClick}>
           Fetch location (try click fast to see how multiple requests will be cancelled)
         </button>
-        { action.isPending() &&
-          <div>Loading ...</div>
-        }
-        { action.isSucceded() &&
-          <pre>{ JSON.stringify(action.getResult().data, null, ' ') }</pre>
-        }
+        <pre>{ JSON.stringify(this.props, null, ' ') }</pre>
       </div>
     )
   }

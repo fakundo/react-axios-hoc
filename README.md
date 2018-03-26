@@ -1,8 +1,10 @@
+# README update required!
+
 ### Action observer
 
-[![npm](https://img.shields.io/npm/v/react-action-observer.svg?maxAge=2592000)](https://www.npmjs.com/package/react-action-observer)
-
 HOC which allows you to observe the status of an asynchronous actions.
+
+[![npm](https://img.shields.io/npm/v/react-action-observer.svg?maxAge=2592000)](https://www.npmjs.com/package/react-action-observer)
 
 ### Features
 
