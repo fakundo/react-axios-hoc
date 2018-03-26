@@ -38,6 +38,7 @@ export default mapActionsToProps => WrappedComponent =>
       return createElement(WrappedComponent, {
         ...this.props,
         ...this.state,
+        ref: this.props.axiosHocRef, // eslint-disable-line
       })
     }
   }
