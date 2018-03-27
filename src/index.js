@@ -1,5 +1,6 @@
 import { Component, createElement } from 'react'
 import mapValues from 'lodash/mapValues'
+import each from 'lodash/each'
 import Action from './Action'
 
 export default mapActionsToProps => WrappedComponent =>
@@ -16,6 +17,13 @@ export default mapActionsToProps => WrappedComponent =>
 
       // Set component state
       this.state = this.getActionsState()
+    }
+
+    componentWillUnmount() {
+      each(
+        this.actions,
+        action => action.abort()
+      )
     }
 
     getActionsState() {
