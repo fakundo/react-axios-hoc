@@ -1,11 +1,10 @@
 {
   "name": "react-axios-hoc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "lib/index.js",
   "files": [
-    "lib",
-    "src"
+    "lib"
   ],
   "scripts": {
     "dev": "webpack-dev-server --progress --open",

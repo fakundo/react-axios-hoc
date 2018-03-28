@@ -6,8 +6,8 @@ const SUCCEDED = 'SUCCEDED'
 const FAILED = 'FAILED'
 
 export default class Action {
-  constructor(request, onStatusUpdate) {
-    this.request = request
+  constructor(createRequest, onStatusUpdate) {
+    this.createRequest = createRequest
     this.onStatusUpdate = onStatusUpdate
     this.status = DEFAULT
     this.error = undefined
@@ -28,6 +28,7 @@ export default class Action {
   }
 
   run = async ({
+    params = [],
     silent = false,
     updateComponent = true,
     updateComponentOnPending = true,
@@ -46,7 +47,8 @@ export default class Action {
 
     try {
       // Success
-      this.result = await this.request(this.cancelTokenSource.token)
+      const request = this.createRequest(this.cancelTokenSource.token)
+      this.result = await request(...params)
       this.status = SUCCEDED
       this.onStatusUpdate(updateComponentOnSuccess && updateComponent)
     } catch (error) {

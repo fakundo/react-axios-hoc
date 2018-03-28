@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import withActions from '../src'
 
-const fetchGeolocation = cancelToken => axios('http://freegeoip.net/json/', { cancelToken })
-
 @withActions(() => ({
-  fetchGeolocationAction: fetchGeolocation,
+  fetchGeolocationAction: cancelToken => () => axios('http://freegeoip.net/json/', { cancelToken }),
 }))
 export default class App extends PureComponent {
   static propTypes = {
