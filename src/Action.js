@@ -71,10 +71,13 @@ export default class Action {
     }
   }
 
-  reset = () => {
+  reset = ({
+    updateComponent = true
+  } = {}) => {
     this.abort()
     this.status = DEFAULT
     this.error = undefined
     this.result = undefined
+    this.onStatusUpdate(updateComponent)
   }
 }
