@@ -1,4 +1,4 @@
-import { CancelToken, isCancel } from 'axios'
+import { CancelToken } from 'axios'
 
 const DEFAULT = 'DEFAULT'
 const PENDING = 'PENDING'
@@ -52,17 +52,15 @@ export default class Action {
       this.status = SUCCEDED
       this.onStatusUpdate(updateComponentOnSuccess && updateComponent)
     } catch (error) {
-      // Ignore axios cancellation error
-      if (!isCancel(error)) {
-        // Failure
-        this.error = error
-        this.status = FAILED
-        this.onStatusUpdate(updateComponentOnFailure && updateComponent)
-        if (!silent) {
-          throw error
-        }
-      }
+      // Failure
+      this.error = error
+      this.status = FAILED
+      this.onStatusUpdate(updateComponentOnFailure && updateComponent)
+      if (!silent) throw error
     }
+
+    // Return promise result
+    return this.result
   }
 
   abort = () => {
