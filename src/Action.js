@@ -14,7 +14,7 @@ export default class Action {
     this.result = undefined
   }
 
-  getState() {
+  getState = () => {
     return {
       isDefault: this.status === DEFAULT,
       isPending: this.status === PENDING,
@@ -65,13 +65,13 @@ export default class Action {
     }
   }
 
-  abort() {
+  abort = () => {
     if (this.status === PENDING) {
       this.cancelTokenSource.cancel()
     }
   }
 
-  reset() {
+  reset = () => {
     this.abort()
     this.status = DEFAULT
     this.error = undefined
