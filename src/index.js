@@ -1,6 +1,7 @@
 import { Component, createElement } from 'react'
 import mapValues from 'lodash/mapValues'
 import each from 'lodash/each'
+import assign from 'lodash/assign'
 import Action from './Action'
 
 export default mapActionsToProps => WrappedComponent =>
@@ -38,7 +39,7 @@ export default mapActionsToProps => WrappedComponent =>
       if (rerender) {
         this.setState(nextState)
       } else {
-        this.state = nextState
+        assign(this.state, nextState)
       }
     }
 
