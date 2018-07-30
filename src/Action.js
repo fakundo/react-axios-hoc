@@ -22,8 +22,8 @@ export default class Action {
       isFailed: this.status === FAILED,
       result: this.result,
       error: this.error,
-      run: this.run,
       reset: this.reset,
+      run: this.run,
     }
   }
 
@@ -35,38 +35,59 @@ export default class Action {
     updateComponentOnSuccess = true,
     updateComponentOnFailure = true,
   } = {}) => {
-    // Cancel pending request
+    // Cancel already pending request
     this.abort()
 
     // Create new cancel token source
     this.cancelTokenSource = CancelToken.source()
 
-    // Pending
-    this.status = PENDING
-    this.onStatusUpdate(updateComponentOnPending && updateComponent)
+    // Change status to pending
+    this.updateStatus({
+      status: PENDING,
+      updateComponent: updateComponentOnPending && updateComponent
+    })
 
     try {
-      // Success
+      // Create action passing cancel token to creator
       const request = this.createRequest(this.cancelTokenSource.token)
-      this.result = await request(...params)
-      this.status = SUCCEDED
-      this.onStatusUpdate(updateComponentOnSuccess && updateComponent)
+
+      // Call action
+      const result = await request(...params)
+
+      // Update status to succeded
+      this.updateStatus({
+        result,
+        status: SUCCEDED,
+        updateComponent: updateComponentOnSuccess && updateComponent
+      })
     } catch (error) {
       if (isCancel(error)) {
-        // Request cancelled
-        this.error = undefined
-        this.status = DEFAULT
+        // Request has been cancelled, update status to default
+        this.updateStatus({
+          status: DEFAULT,
+          updateComponent: updateComponentOnFailure && updateComponent
+        })
       } else {
-        // Failure
-        this.error = error
-        this.status = FAILED
+        // Action failed, update status to failed
+        this.updateStatus({
+          error,
+          status: FAILED,
+          updateComponent: updateComponentOnFailure && updateComponent
+        })
       }
-      this.onStatusUpdate(updateComponentOnFailure && updateComponent)
+      // Throw error to upper scope
       if (!silent) throw error
     }
 
-    // Return promise result
+    // Return action result
     return this.result
+  }
+
+  updateStatus({ status, result, error, updateComponent }) {
+    this.status = status
+    this.result = result
+    this.error = error
+    this.onStatusUpdate(updateComponent)
   }
 
   abort = () => {
@@ -75,13 +96,11 @@ export default class Action {
     }
   }
 
-  reset = ({
-    updateComponent = true
-  } = {}) => {
+  reset = ({ updateComponent = true } = {}) => {
     this.abort()
-    this.status = DEFAULT
-    this.error = undefined
-    this.result = undefined
-    this.onStatusUpdate(updateComponent)
+    this.updateStatus({
+      status: DEFAULT,
+      updateComponent,
+    })
   }
 }

@@ -1,53 +1,53 @@
 import { Component, createElement } from 'react'
 import mapValues from 'lodash/mapValues'
 import each from 'lodash/each'
-import assign from 'lodash/assign'
 import Action from './Action'
 
 export default mapActionsToProps => WrappedComponent =>
   class ReactAxiosHoc extends Component {
     constructor(props) {
       super()
-      const actions = mapActionsToProps(props)
 
       // Create action instances
       this.actions = mapValues(
-        actions,
-        action => new Action(action, this.handleStatusUpdate)
+        mapActionsToProps(props),
+        action => new Action(action, this.handleActionUpdate)
       )
 
       // Set component state
-      this.state = this.getActionsState()
+      this.state = this.calculateState()
     }
 
     componentWillUnmount() {
+      this.handleActionUpdate = () => {}
       each(
         this.actions,
         action => action.abort()
       )
     }
 
-    getActionsState() {
+    calculateState() {
       return mapValues(
         this.actions,
         action => action.getState()
       )
     }
 
-    handleStatusUpdate = (rerender) => {
-      const nextState = this.getActionsState()
-      if (rerender) {
+    handleActionUpdate = (updateComponent) => {
+      const nextState = this.calculateState()
+      if (updateComponent) {
         this.setState(nextState)
       } else {
-        assign(this.state, nextState)
+        this.state = { ...this.state, ...nextState }
       }
     }
 
     render() {
+      const { axiosHocRef, ...rest } = this.props // eslint-disable-line
       return createElement(WrappedComponent, {
-        ...this.props,
+        ...rest,
         ...this.state,
-        ref: this.props.axiosHocRef, // eslint-disable-line
+        ref: axiosHocRef,
       })
     }
   }
