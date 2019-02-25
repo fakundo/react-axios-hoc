@@ -12,7 +12,7 @@ export default (
   {
     abortPendingOnUnmount = true
   } = {}
-) => WrappedComponent =>
+) => WrappedComponent => (
   class ReactAxiosHoc extends Component {
     constructor(props) {
       super()
@@ -46,7 +46,7 @@ export default (
       )
     }
 
-    handleActionUpdate = (updateComponent) => { // eslint-disable-line
+    handleActionUpdate = (updateComponent) => {
       const nextState = this.calculateState()
       if (updateComponent) {
         this.setState(nextState)
@@ -64,3 +64,4 @@ export default (
       })
     }
   }
+)
