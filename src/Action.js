@@ -49,7 +49,7 @@ export default class Action {
 
   run = async ({
     params = [],
-    silent = true,
+    silent = false,
     abortPending = true,
     updateComponent = true,
     updateComponentOnPending = true,

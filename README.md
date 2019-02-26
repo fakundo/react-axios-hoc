@@ -86,9 +86,7 @@ class Dog extends Component {
 handleClick = async () => {
   const { fetchDogAction } = this.props
   try {
-    const dog = await fetchDogAction.run({
-      silent: false
-    })
+    const dog = await fetchDogAction.run()
     console.log('Fetched dog: ', dog)
   }
   catch (error) {
@@ -135,7 +133,7 @@ fetchUserAction.run({
 #### Options of method `run`
 
 - `params` default: `[]`, params will be passed to axios action, 
-- `silent` - default: `true`, disable error throwing
+- `silent` - default: `false`, if `true` then error throwing disabled
 - `abortPending` - default `true`, aborts previous request if it's still running
 - `updateComponent` - default: `true`, invokes component rerender on status change
 - `updateComponentOnPending`, default: `true` 
