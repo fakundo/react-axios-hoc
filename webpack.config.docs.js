@@ -14,7 +14,7 @@ module.exports = {
   stats: 'errors-only',
   plugins: [
     new HtmlWebpackPlugin(),
-    new CleanWebpackPlugin(['docs']),
+    new CleanWebpackPlugin(),
   ],
   module: {
     rules: [
