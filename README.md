@@ -2,10 +2,10 @@
 
 [![npm](https://img.shields.io/npm/v/react-axios-hoc.svg)](https://www.npmjs.com/package/react-axios-hoc)
 
-React Higher-Order Component (HOC) for observing and invoking `axios` actions.
+React Higher-Order Component (HOC) for observing and invoking `axios` requests.
 
 Features:
-- can rerender component when action status changes
+- can rerender component when request status changes
 - can abort requests when unmounting component
 - can abort request on second call
 
