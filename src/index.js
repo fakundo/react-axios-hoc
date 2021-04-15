@@ -1,18 +1,12 @@
 import { Component, createElement } from 'react'
-import { isCancel as isCancelHandler } from 'axios'
 import mapValues from 'lodash/mapValues'
 import each from 'lodash/each'
 import isFunction from 'lodash/isFunction'
 import Action from './Action'
 
-export const isCancel = isCancelHandler
+export { isCancel } from 'axios'
 
-export default (
-  mapActionsToProps,
-  {
-    abortPendingOnUnmount = true
-  } = {}
-) => WrappedComponent => (
+export default (mapActionsToProps, { abortPendingOnUnmount = true } = {}) => (WrappedComponent) => (
   class ReactAxiosHoc extends Component {
     constructor(props) {
       super()
@@ -21,7 +15,7 @@ export default (
         ? mapActionsToProps(props)
         : mapActionsToProps
 
-      this.actions = mapValues(actions, action => (
+      this.actions = mapValues(actions, (action) => (
         new Action(action, this.handleActionUpdate)
       ))
 
@@ -32,19 +26,16 @@ export default (
       each(this.actions, this.performUnmountForAction)
     }
 
-    performUnmountForAction(action) {
+    performUnmountForAction = (action) => {
       action.updateKey()
       if (abortPendingOnUnmount) {
         action.abort()
       }
     }
 
-    calculateState() {
-      return mapValues(
-        this.actions,
-        action => action.getState()
-      )
-    }
+    calculateState = () => (
+      mapValues(this.actions, (action) => action.getState())
+    )
 
     handleActionUpdate = (updateComponent) => {
       const nextState = this.calculateState()
@@ -56,7 +47,7 @@ export default (
     }
 
     render() {
-      const { axiosHocRef, ...rest } = this.props // eslint-disable-line
+      const { axiosHocRef, ...rest } = this.props
       return createElement(WrappedComponent, {
         ...rest,
         ...this.state,

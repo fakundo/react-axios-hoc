@@ -15,18 +15,16 @@ export default class Action {
     this.key = undefined
   }
 
-  getState = () => {
-    return {
-      isDefault: this.status === DEFAULT,
-      isPending: this.status === PENDING,
-      isSucceded: this.status === SUCCEDED,
-      isFailed: this.status === FAILED,
-      result: this.result,
-      error: this.error,
-      reset: this.reset,
-      run: this.run,
-    }
-  }
+  getState = () => ({
+    isDefault: this.status === DEFAULT,
+    isPending: this.status === PENDING,
+    isSucceded: this.status === SUCCEDED,
+    isFailed: this.status === FAILED,
+    result: this.result,
+    error: this.error,
+    reset: this.reset,
+    run: this.run,
+  })
 
   updateKey = () => {
     this.key = Math.random()
@@ -69,7 +67,7 @@ export default class Action {
     this.updateStatus({
       key,
       status: PENDING,
-      updateComponent: updateComponentOnPending && updateComponent
+      updateComponent: updateComponentOnPending && updateComponent,
     })
 
     try {
@@ -84,7 +82,7 @@ export default class Action {
         key,
         result,
         status: SUCCEDED,
-        updateComponent: updateComponentOnSuccess && updateComponent
+        updateComponent: updateComponentOnSuccess && updateComponent,
       })
     } catch (error) {
       if (isCancel(error)) {
@@ -92,7 +90,7 @@ export default class Action {
         this.updateStatus({
           key,
           status: DEFAULT,
-          updateComponent: updateComponentOnFailure && updateComponent
+          updateComponent: updateComponentOnFailure && updateComponent,
         })
       } else {
         // Action failed, update status to failed
@@ -100,7 +98,7 @@ export default class Action {
           key,
           error,
           status: FAILED,
-          updateComponent: updateComponentOnFailure && updateComponent
+          updateComponent: updateComponentOnFailure && updateComponent,
         })
       }
 

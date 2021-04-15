@@ -11,21 +11,25 @@ module.exports = {
   ],
   devtool: 'inline-source-map',
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin(),
   ],
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         use: 'babel-loader',
-        exclude: /node_modules/
-      }
-    ]
+      },
+    ],
+  },
+  resolve: {
+    alias: {
+      'react-axios-hoc': path.resolve(__dirname),
+    },
   },
   devServer: {
     host,
     port,
     stats: 'minimal',
     historyApiFallback: true,
-  }
+  },
 }

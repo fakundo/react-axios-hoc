@@ -7,7 +7,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'docs'),
-    publicPath: ''
+    publicPath: '',
   },
   target: 'web',
   devtool: 'source-map',
@@ -21,8 +21,12 @@ module.exports = {
       {
         test: /\.jsx?$/,
         use: 'babel-loader',
-        exclude: /node_modules/
-      }
-    ]
-  }
+      },
+    ],
+  },
+  resolve: {
+    alias: {
+      'react-axios-hoc': path.resolve(__dirname),
+    },
+  },
 }

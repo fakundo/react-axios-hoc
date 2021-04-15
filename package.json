@@ -1,8 +1,10 @@
 {
   "name": "react-axios-hoc",
-  "version": "2.0.2",
-  "description": "Observable axios actions for React components",
-  "main": "lib/index.js",
+  "version": "3.0.0",
+  "description": "React Higher-Order Component (HOC) for observing and invoking axios actions",
+  "main": "lib/react-axios-hoc.js",
+  "module": "lib/react-axios-hoc.module.js",
+  "exports": "./lib/react-axios-hoc.modern.js",
   "files": [
     "lib"
   ],
@@ -11,7 +13,8 @@
     "docs": "webpack --progress --config webpack.config.docs.js",
     "lint": "eslint src && eslint examples",
     "clean": "rimraf lib",
-    "compile": "NODE_ENV=commonjs babel src -d lib",
+    "watch": "microbundle watch -i src -o lib -f modern,es,cjs --no-sourcemap",
+    "compile": "microbundle -i src -o lib/index.js -f cjs --no-sourcemap",
     "build": "npm run clean && npm run compile && npm run docs",
     "prepublishOnly": "yarn run lint && yarn run build"
   },
@@ -30,38 +33,38 @@
   "author": "Roman Samoylov (https://github.com/fakundo)",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.3",
-    "@babel/plugin-proposal-class-properties": "^7.3.3",
-    "@babel/plugin-proposal-export-default-from": "^7.2.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
-    "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/preset-env": "^7.3.1",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.15",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-export-default-from": "^7.12.13",
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
+    "@babel/plugin-transform-runtime": "^7.13.15",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-react": "^7.13.13",
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
-    "babel-loader": "^8.0.5",
+    "babel-loader": "^8.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "clean-webpack-plugin": "^1.0.1",
-    "eslint": "^5.14.1",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
-    "html-webpack-plugin": "^3.2.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^7.24.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.23.2",
+    "html-webpack-plugin": "^5.3.1",
+    "microbundle": "^0.13.0",
     "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "rimraf": "^2.6.3",
-    "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.2.1"
+    "react-dom": "^17.0.2",
+    "rimraf": "^3.0.2",
+    "webpack": "^5.32.0",
+    "webpack-cli": "^3.0.0",
+    "webpack-dev-server": "^3.11.2",
+    "lodash": "^4.17.21"
   },
-  "dependencies": {
-    "@babel/runtime": "^7.3.1",
-    "lodash": "^4.17.11"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "axios": "*",
-    "react": "*"
+    "react": "*",
+    "lodash": "*"
   }
 }

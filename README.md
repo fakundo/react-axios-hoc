@@ -2,41 +2,33 @@
 
 [![npm](https://img.shields.io/npm/v/react-axios-hoc.svg)](https://www.npmjs.com/package/react-axios-hoc)
 
-Observable axios actions for React components. 
+React Higher-Order Component (HOC) for observing and invoking `axios` actions.
 
 Features:
-- can rerender component when status of action has changed
-- can abort requests on component unmount
+- can rerender component when action status changes
+- can abort requests when unmounting component
 - can abort request on second call
 
-## Installation
+### Installation
 
 ```
-npm install react-axios-hoc
+npm i react-axios-hoc
 ```
 
-## Demo
+### Demo
 
 [Demo](https://fakundo.github.io/react-axios-hoc/) 
 / 
 [Source](https://github.com/fakundo/react-axios-hoc/tree/master/examples)
 
-## Usage
+### Usage
 
-```javascript
+```js
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import withActions from 'react-axios-hoc'
 
-const mapActionsToProps = {
-  fetchDogAction: cancelToken => () => (
-    axios('https://dog.ceo/api/breeds/image/random', { cancelToken })
-  )
-}
-
-export default 
-@withActions(mapActionsToProps)
 class Dog extends Component {
   static propTypes = {
     fetchDogAction: PropTypes.object.isRequired,
@@ -77,12 +69,23 @@ class Dog extends Component {
     )
   }
 }
+
+const mapActionsToProps = {
+  fetchDogAction: cancelToken => () => (
+    axios('https://dog.ceo/api/breeds/image/random', {
+      cancelToken
+    })
+  )
+}
+
+export default withActions(mapActionsToProps)(Dog)
 ```
 
-#### Action is promise
+#### Action `run` returns a promise
 
-```javascript
+```js
 ...
+
 handleClick = async () => {
   const { fetchDogAction } = this.props
   try {
@@ -93,22 +96,27 @@ handleClick = async () => {
     console.log('Error occured while fetching a dog: ', error.message)
   }
 }
+
 ...
 ```
 
-#### Action with params
+#### Invoking action with arguments
 
-```javascript
+```js
 ...
+
 const mapActionsToProps = {
   fetchUserAction: cancelToken => id => (
     axios(`/users/${id}`, { cancelToken })
   )
 }
+
 ...
+
 fetchUserAction.run({
   params: [userId]
 })
+
 ...
 ```
 
@@ -116,8 +124,8 @@ fetchUserAction.run({
 
 #### HOC creator params
 
-- `mapActionsToProps` - Function or object that defines actions. If it's function then component props will be passed to it as argument.
-- `options` - default: `{ abortPendingOnUnmount: true }`
+- `mapActionsToProps = { ... }` - function or object that defines actions. If it's a function then component props will be passed to it.
+- `options = { abortPendingOnUnmount: true }`
 
 #### Structure of action object
 
@@ -127,19 +135,19 @@ fetchUserAction.run({
 - `isFailed` - `true` if request has failed
 - `result` - result of request
 - `error` - error occured while performing request
-- `run(options)` - starts request
-- `reset(options)` - resets action (aborts request, resets status)
+- `run(runOptions)` - starts request
+- `reset(resetOptions)` - resets action (aborts request & resets status)
 
-#### Options of method `run`
+#### `runOptions`
 
-- `params` default: `[]`, params will be passed to axios action, 
-- `silent` - default: `false`, if `true` then error throwing disabled
-- `abortPending` - default `true`, aborts previous request if it's still running
-- `updateComponent` - default: `true`, invokes component rerender on status change
-- `updateComponentOnPending`, default: `true` 
-- `updateComponentOnSuccess`, default: `true`
-- `updateComponentOnFailure`, default: `true`
+- `params = []` - params will be passed to axios action
+- `silent = false` - disables throwing errors
+- `abortPending = true` - aborts previous request if it's still running
+- `updateComponent = true` - invokes component rerender on status change
+- `updateComponentOnPending = true`
+- `updateComponentOnSuccess = true`
+- `updateComponentOnFailure = true`
 
-#### Options of method `reset`
+#### `resetOptions`
 
-- `updateComponent` - default: `true`, invokes component rerender
+- `updateComponent = true` - invokes component rerender
