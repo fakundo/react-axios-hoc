@@ -1,6 +1,6 @@
 {
   "name": "react-axios-hoc",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "React Higher-Order Component (HOC) for observing and invoking axios actions",
   "main": "lib/react-axios-hoc.js",
   "module": "lib/react-axios-hoc.module.js",
@@ -10,11 +10,11 @@
   ],
   "scripts": {
     "dev": "webpack-dev-server --progress --open --config webpack.config.development.js",
-    "docs": "webpack --progress --config webpack.config.docs.js",
+    "docs": "yarn run build && webpack -p --progress --config webpack.config.docs.js",
     "lint": "eslint src && eslint examples",
     "clean": "rimraf lib",
     "watch": "microbundle watch -i src -o lib -f modern,es,cjs --no-sourcemap",
-    "compile": "microbundle -i src -o lib/index.js -f cjs --no-sourcemap",
+    "compile": "microbundle -i src -o lib -f modern,es,cjs --no-sourcemap",
     "build": "npm run clean && npm run compile",
     "prepublishOnly": "yarn run lint && yarn run build"
   },

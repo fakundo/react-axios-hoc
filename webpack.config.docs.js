@@ -11,7 +11,6 @@ module.exports = {
   },
   target: 'web',
   devtool: 'source-map',
-  stats: 'errors-only',
   plugins: [
     new HtmlWebpackPlugin(),
     new CleanWebpackPlugin(),
